@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Visiting Card Price Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Card Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #eef8f1;
+      background-color: #f0f9f3;
       color: #333;
-      margin: 0;
       padding: 20px;
     }
     .container {
@@ -63,12 +62,19 @@
 </head>
 <body>
   <div class="container">
-    <h2>Seed Paper India<br>Visiting Card Calculator</h2>
+    <h2>Seed Paper India<br>Wedding Card Calculator</h2>
     <form id="calcForm">
-      <label>Seed Type (350 GSM)</label>
-      <select id="seed">
-        <option value="350 GSM Wildflower">350 GSM Wildflower</option>
-        <option value="350 GSM Basil">350 GSM Basil</option>
+      <label>Size</label>
+      <select id="size">
+        <option value="4x6">4x6 inch</option>
+        <option value="5x7">5x7 inch</option>
+        <option value="6x8">6x8 inch</option>
+      </select>
+
+      <label>GSM</label>
+      <select id="gsm">
+        <option value="250">250 GSM</option>
+        <option value="350">350 GSM</option>
       </select>
 
       <label>Print Type</label>
@@ -77,20 +83,20 @@
         <option value="double">Double Side</option>
       </select>
 
-      <label>Quantity (Min 100)</label>
-      <input type="number" id="quantity" min="100" placeholder="Enter quantity" />
+      <label>Quantity</label>
+      <input type="number" id="quantity" min="1" placeholder="Enter quantity" />
 
       <label>Pincode</label>
-      <input type="text" id="pincode" placeholder="Enter your area pincode" />
+      <input type="text" id="pincode" placeholder="Enter pincode" />
 
       <label>Name</label>
-      <input type="text" id="name" required />
+      <input type="text" id="name" />
 
       <label>Phone Number</label>
-      <input type="text" id="phone" required />
+      <input type="text" id="phone" />
 
       <label>Billing Address</label>
-      <input type="text" id="address" required />
+      <input type="text" id="address" />
 
       <label>Email (optional)</label>
       <input type="email" id="email" />
@@ -107,37 +113,38 @@
   </div>
 
   <footer>
-    <p>Seed Paper India | <a href="mailto:seedpaperindia@gmail.com">Email</a> | 
-      <a href="https://instagram.com/seedpaperindia" target="_blank">Instagram</a> | 
-      <a href="https://seedpaperindia.in" target="_blank">Website</a></p>
+    <p>Seed Paper India | <a href="mailto:seedpaperindia@gmail.com">Email</a> | <a href="https://instagram.com/seedpaperindia" target="_blank">Instagram</a> | <a href="https://seedpaperindia.in" target="_blank">Website</a></p>
     <p>WhatsApp: <a href="https://wa.me/6364699837" target="_blank">6364699837</a></p>
   </footer>
 
   <script>
+    const priceTable = {
+      "4x6": {"250": {single: 17, double: 20}, "350": {single: 22, double: 25}},
+      "5x7": {"250": {single: 20, double: 23}, "350": {single: 25, double: 28}},
+      "6x8": {"250": {single: 23, double: 26}, "350": {single: 28, double: 31}},
+    };
+
     function calculatePrice() {
+      const size = document.getElementById("size").value;
+      const gsm = document.getElementById("gsm").value;
       const printType = document.getElementById("printType").value;
       const qty = parseInt(document.getElementById("quantity").value);
 
-      if (qty < 100) {
-        alert("Minimum quantity is 100");
+      if (qty < 1) {
+        alert("Enter a valid quantity");
         return;
       }
 
-      let baseRate = printType === "double" ? 12 : 10;
-      if (qty >= 500) {
-        baseRate = printType === "double" ? 9 : 8;
-      }
-
-      const price = baseRate * qty;
-      const gst = price * 0.12;
-      const deliveryCharge = qty >= 500 ? 0 : 79;
-      const total = price + gst + deliveryCharge;
+      const basePrice = priceTable[size][gsm][printType];
+      let price = qty * basePrice;
+      let gst = price * 0.12;
+      let deliveryCharge = price >= 500 ? 0 : 79;
+      let total = price + gst + deliveryCharge;
 
       let resultText = `Base Price: ₹${price.toFixed(2)}\nGST (12%): ₹${gst.toFixed(2)}`;
-      resultText += deliveryCharge > 0 
-        ? `\nDelivery: ₹${deliveryCharge} (via India Post)`
-        : `\nDelivery: Free (via India Post)`;
+      resultText += deliveryCharge > 0 ? `\nDelivery: ₹${deliveryCharge}` : `\nDelivery: Free (via India Post)`;
       resultText += `\nTotal Payable: ₹${total.toFixed(2)}\nDelivery time: 4–5 working days or depending on location.`;
+      resultText += `\n\nNote: Final price may vary after final design approval. All personal details will be kept confidential.`;
 
       document.getElementById("priceDisplay").innerText = resultText;
     }
@@ -146,18 +153,16 @@
       const name = document.getElementById("name").value;
       const phone = document.getElementById("phone").value;
       const qty = document.getElementById("quantity").value;
+      const size = document.getElementById("size").value;
+      const gsm = document.getElementById("gsm").value;
+      const printType = document.getElementById("printType").value;
       const address = document.getElementById("address").value;
       const email = document.getElementById("email").value;
       const gst = document.getElementById("gst").value;
-      const printType = document.getElementById("printType").value;
-      const seed = document.getElementById("seed").value;
       const pincode = document.getElementById("pincode").value;
       const price = document.getElementById("priceDisplay").innerText;
 
-      const message = `*Visiting Card Inquiry*\n\n` +
-        `Name: ${name}\nPhone: ${phone}\nQty: ${qty}\nSeed: ${seed}\n` +
-        `Print: ${printType}\nPincode: ${pincode}\nAddress: ${address}\nEmail: ${email}\nGST: ${gst}\n\n${price}` +
-        `\n\nPlease reply to this message with your design file.`;
+      let message = `*Wedding Card Inquiry*\n\nName: ${name}\nPhone: ${phone}\nSize: ${size} inch\nGSM: ${gsm}\nPrint: ${printType}\nQty: ${qty}\nPincode: ${pincode}\nAddress: ${address}\nEmail: ${email}\nGST: ${gst}\n\n${price}\n\nPlease reply with your design.`;
 
       const encoded = encodeURIComponent(message);
       window.open(`https://wa.me/6364699837?text=${encoded}`);
