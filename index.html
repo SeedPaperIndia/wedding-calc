@@ -2,200 +2,192 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seed Paper India - Wedding Card Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Card Calculator</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f4fff4;
-      padding: 20px;
-      color: #333;
+      font-family: Arial, sans-serif;
+      background-color: #f1f9f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
+    .calculator {
       background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .logo {
+      width: 150px;
+      margin-bottom: 10px;
     }
     h1 {
-      text-align: center;
       color: #2e7d32;
-    }
-    img.logo {
-      display: block;
-      margin: 0 auto 20px;
-      max-width: 150px;
+      margin-bottom: 20px;
     }
     label {
-      font-weight: bold;
+      display: block;
+      text-align: left;
+      margin-top: 15px;
     }
     select, input[type="number"] {
       width: 100%;
       padding: 8px;
-      margin: 6px 0 16px;
+      margin-top: 5px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 8px;
     }
-    .result {
-      background-color: #e8f5e9;
+    .price-details {
+      margin-top: 20px;
+      background-color: #f4f4f4;
       padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: left;
     }
-    .whatsapp-btn, .reset-btn {
+    .price-details p {
+      margin: 5px 0;
+    }
+    .btn {
+      margin-top: 15px;
+      padding: 10px;
       width: 100%;
-      padding: 12px;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-    .whatsapp-btn {
-      background-color: #25D366;
+      border-radius: 5px;
       color: white;
-    }
-    .reset-btn {
-      background-color: #ccc;
-    }
-    .footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
-    }
-    .footer a {
-      margin: 0 8px;
-      text-decoration: none;
-      color: #2e7d32;
-    }
-    .tooltip {
-      display: inline-block;
-      cursor: pointer;
-      color: #999;
-      margin-left: 5px;
-    }
-    .tooltip:hover::after {
-      content: attr(data-tip);
-      background: #444;
-      color: white;
-      padding: 5px;
-      position: absolute;
-      font-size: 12px;
-      border-radius: 4px;
-      transform: translateX(10px);
-      white-space: nowrap;
-    }
-    #thankYou {
-      color: green;
       font-weight: bold;
-      display: none;
+      cursor: pointer;
+    }
+    .whatsapp {
+      background-color: #25D366;
+    }
+    .reset {
+      background-color: #888;
+      margin-top: 5px;
+    }
+    footer {
+      margin-top: 30px;
       text-align: center;
-      margin-top: 10px;
+      font-size: 0.9em;
+      color: #666;
+    }
+    .social-icons img {
+      width: 24px;
+      margin: 0 5px;
+      vertical-align: middle;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="Untitled design (3).jpg" class="logo" alt="Seed Paper India Logo"/>
+  <div class="calculator">
+    <img src="Untitled design (4).jpg" alt="Seed Paper India Logo" class="logo" />
     <h1>Wedding Card Calculator</h1>
+    <label>Size:
+      <select id="size">
+        <option value="4x6">4x6</option>
+        <option value="5x7">5x7</option>
+        <option value="6x8">6x8</option>
+      </select>
+    </label>
 
-    <label>Size:</label>
-    <select id="size">
-      <option value="4x6">4x6</option>
-      <option value="5x7">5x7</option>
-      <option value="6x8">6x8</option>
-    </select>
+    <label>GSM:
+      <select id="gsm">
+        <option value="250">250 GSM</option>
+        <option value="350">350 GSM</option>
+      </select>
+    </label>
 
-    <label>GSM:</label>
-    <select id="gsm">
-      <option value="250">250 GSM</option>
-      <option value="350">350 GSM</option>
-    </select>
+    <label>Print Type:
+      <select id="print">
+        <option value="single">Single Side</option>
+        <option value="double">Double Side</option>
+      </select>
+    </label>
 
-    <label>Print Type:</label>
-    <select id="printType">
-      <option value="single">Single Side</option>
-      <option value="double">Double Side</option>
-    </select>
+    <label>Quantity:
+      <input type="number" id="quantity" value="100" min="1" />
+    </label>
 
-    <label>Quantity:</label>
-    <input type="number" id="quantity" value="100" min="1"/>
-
-    <div class="result">
-      <p><strong>Base Price:</strong> ₹<span id="basePrice">0</span></p>
-      <p><strong>GST (18%)</strong> <span class="tooltip" data-tip="Government tax applicable">ℹ️</span>: ₹<span id="gst">0</span></p>
-      <p><strong>Discount</strong> <span class="tooltip" data-tip="5% for 200+, 10% for 500+">ℹ️</span>: -₹<span id="discount">0</span></p>
-      <p><strong>Total Price</strong> <span class="tooltip" data-tip="Includes print cost + GST − discount">ℹ️</span>: ₹<span id="total">0</span></p>
+    <div class="price-details">
+      <p>Base Price: ₹<span id="basePrice">0</span></p>
+      <p>GST (18%): ₹<span id="gst">0</span></p>
+      <p>Discount: ₹<span id="discount">0</span></p>
+      <p><strong>Total Price: ₹<span id="total">0</span></strong></p>
     </div>
 
-    <button class="whatsapp-btn" onclick="sendWhatsApp()">Send on WhatsApp</button>
-    <button class="reset-btn" onclick="resetForm()">Reset</button>
-    <div id="thankYou">✅ Thanks! Your inquiry is ready.</div>
+    <button class="btn whatsapp" onclick="sendWhatsApp()">Send on WhatsApp</button>
+    <button class="btn reset" onclick="resetForm()">Reset</button>
 
-    <div class="footer">
-      <p>Seed Paper India</p>
-      <a href="https://wa.me/916364699837" target="_blank">📱 WhatsApp</a>
-      <a href="https://seedpaperindia.in" target="_blank">🌐 Website</a>
-      <a href="mailto:info@seedpaperindia.in">✉️ Email</a>
-      <a href="https://instagram.com/yourprofile" target="_blank">📸 Instagram</a>
-    </div>
+    <footer>
+      <p>Seed Paper India<br />
+        📞 <a href="tel:6364699837">6364699837</a> <br />
+        🌐 <a href="https://seedpaperindia.in" target="_blank">Website</a> <br />
+        📧 <a href="mailto:hello@seedpaperindia.in">Email</a>
+      </p>
+      <div class="social-icons">
+        <a href="https://instagram.com/seedpaperindia" target="_blank"><img src="https://img.icons8.com/ios-filled/50/000000/instagram-new.png" alt="Instagram"></a>
+        <a href="https://wa.me/6364699837" target="_blank"><img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp"></a>
+      </div>
+    </footer>
   </div>
 
   <script>
-    const rates = {
-      "4x6": { "250": { "single": 17, "double": 20 }, "350": { "single": 22, "double": 25 } },
-      "5x7": { "250": { "single": 20, "double": 23 }, "350": { "single": 25, "double": 28 } },
-      "6x8": { "250": { "single": 23, "double": 26 }, "350": { "single": 28, "double": 31 } },
+    const prices = {
+      "4x6": { "250": { single: 17, double: 20 }, "350": { single: 22, double: 25 } },
+      "5x7": { "250": { single: 20, double: 23 }, "350": { single: 25, double: 28 } },
+      "6x8": { "250": { single: 23, double: 26 }, "350": { single: 28, double: 31 } }
     };
 
-    function updatePrices() {
-      const size = document.getElementById('size').value;
-      const gsm = document.getElementById('gsm').value;
-      const type = document.getElementById('printType').value;
-      const qty = parseInt(document.getElementById('quantity').value || "0");
+    function calculate() {
+      const size = document.getElementById("size").value;
+      const gsm = document.getElementById("gsm").value;
+      const print = document.getElementById("print").value;
+      const quantity = parseInt(document.getElementById("quantity").value);
 
-      const rate = rates[size][gsm][type];
-      const base = rate * qty;
+      const pricePerPiece = prices[size][gsm][print];
+      let base = pricePerPiece * quantity;
       let discount = 0;
-      if (qty >= 500) discount = base * 0.10;
-      else if (qty >= 200) discount = base * 0.05;
-      const gst = (base - discount) * 0.18;
+
+      if (quantity >= 500) discount = 0.10 * base;
+      else if (quantity >= 200) discount = 0.05 * base;
+
+      const gst = 0.18 * (base - discount);
       const total = base - discount + gst;
 
-      document.getElementById('basePrice').innerText = base.toFixed(2);
-      document.getElementById('discount').innerText = discount.toFixed(2);
-      document.getElementById('gst').innerText = gst.toFixed(2);
-      document.getElementById('total').innerText = total.toFixed(2);
+      document.getElementById("basePrice").innerText = base.toFixed(2);
+      document.getElementById("discount").innerText = discount.toFixed(2);
+      document.getElementById("gst").innerText = gst.toFixed(2);
+      document.getElementById("total").innerText = total.toFixed(2);
     }
 
     function sendWhatsApp() {
-      updatePrices();
-      const size = document.getElementById('size').value;
-      const gsm = document.getElementById('gsm').value;
-      const type = document.getElementById('printType').value;
-      const qty = document.getElementById('quantity').value;
-      const total = document.getElementById('total').innerText;
+      calculate();
+      const size = document.getElementById("size").value;
+      const gsm = document.getElementById("gsm").value;
+      const print = document.getElementById("print").value;
+      const quantity = document.getElementById("quantity").value;
+      const total = document.getElementById("total").innerText;
 
-      const message = `Hi, I would like to order wedding cards:\nSize: ${size}\nGSM: ${gsm}\nPrint: ${type}\nQuantity: ${qty}\nTotal Price (incl. GST & discount): ₹${total}`;
-      window.open(`https://wa.me/916364699837?text=${encodeURIComponent(message)}`, "_blank");
-
-      document.getElementById("thankYou").style.display = "block";
+      const msg = `Hello, I'm interested in wedding cards.\nSize: ${size}\nGSM: ${gsm}\nPrint: ${print}\nQty: ${quantity}\nTotal: ₹${total}`;
+      window.open(`https://wa.me/6364699837?text=${encodeURIComponent(msg)}`);
     }
 
     function resetForm() {
-      document.getElementById('size').selectedIndex = 0;
-      document.getElementById('gsm').selectedIndex = 0;
-      document.getElementById('printType').selectedIndex = 0;
-      document.getElementById('quantity').value = 100;
-      document.getElementById("thankYou").style.display = "none";
-      updatePrices();
+      document.getElementById("size").value = "4x6";
+      document.getElementById("gsm").value = "250";
+      document.getElementById("print").value = "single";
+      document.getElementById("quantity").value = 100;
+      calculate();
     }
 
-    window.onload = updatePrices;
+    document.querySelectorAll("select, input").forEach(el => el.addEventListener("change", calculate));
+    window.onload = calculate;
   </script>
 </body>
 </html>
-
